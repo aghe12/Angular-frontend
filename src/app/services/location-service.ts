@@ -1,5 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, InjectionToken } from '@angular/core';
 import { HousingLocationInfo } from '../models/housing-location-info';
+
+export const BASE_URL = new InjectionToken<string>('baseUrl', {
+  providedIn: 'root',
+  factory: () => 'https://angular.dev/assets/images/tutorials/common',
+});
 
 @Injectable({
   providedIn: 'root',

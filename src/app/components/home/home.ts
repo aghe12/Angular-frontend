@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { LocationService } from '../../services/location-service';
-import { MockLocationService } from '../../services/mock-location-service';
 import { HousingLocation } from '../housing-location/housing-location';
 
 @Component({
@@ -9,15 +8,13 @@ import { HousingLocation } from '../housing-location/housing-location';
   imports: [HousingLocation],
   templateUrl: './home.html',
   styleUrl: './home.css',
-  providers: [{ provide: LocationService, useClass: MockLocationService }],
+  providers: [LocationService],
 })
 export class Home {
   locationSevice: LocationService = inject(LocationService);
 
-
   handleLocationClick(housingLocation: HousingLocationInfo) {
     console.log(`${housingLocation.name} was clicked`);
- 
   }
   // handleLocationClick(location: HousingLocationInfo) {
   //   console.log(`${location.name} was clicked`);

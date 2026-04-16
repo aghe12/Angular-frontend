@@ -5,7 +5,7 @@
   </form>
 </section>
 <section class="results">
-  @for (housingLocation of housingLocationList; track housingLocation.id) {
+  @for (housingLocation of locationSevice.getAllLocations(); track housingLocation.id) {
     <app-housing-location
       [housingLocation]="housingLocation"
       (onLocationClick)="handleLocationClick($event)"

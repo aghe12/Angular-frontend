@@ -1,4 +1,4 @@
-<button class="container" (click)="handleClick()">
+<button class="container" (click)="handleClick($event)">
   <section class="listing">
     <img
       class="listing-photo"
@@ -8,5 +8,10 @@
     />
     <h2 class="listing-heading">{{ housingLocation().name }}</h2>
     <p class="listing-location">{{ housingLocation().city }}, {{ housingLocation().state }}</p>
+    @if(housingLocation().wifi) {
+      <p class="listing-wifi">WiFi available</p>
+    } @else {
+      <p class="listing-wifi">No WiFi</p>
+    }
   </section>
 </button>

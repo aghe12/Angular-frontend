@@ -3,11 +3,30 @@
     <input type="text" placeholder="Filter by city" />
     <button class="primary" type="button">Search</button>
   </form>
+
+  <section class="mode-bar">
+    <label class="mode-toggle">
+      <input type="checkbox" (change)="handleCheck($event)" />
+      <span class="mode-toggle-track">
+        <span class="mode-toggle-thumb"></span>
+      </span>
+    </label>
+    <span class="mode-label" [class.edit-active]="mode() === 'edit'">
+      @if (mode() === 'edit') {
+        Edit Mode Active
+      } @else {
+        Normal Mode
+      }
+    </span>
+  </section>
 </section>
+
 <section class="results">
   @for (housingLocation of locationSevice.getAllLocations(); track housingLocation.id) {
     <app-housing-location
       [housingLocation]="housingLocation"
+      [mode]="mode()"
+      [isSelected]="isSelected(housingLocation.id)"
       (onLocationClick)="handleLocationClick($event)"
     />
   } @empty {

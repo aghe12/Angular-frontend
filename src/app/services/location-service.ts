@@ -123,4 +123,8 @@ export class LocationService {
   getAllLocations() {
     return this.housingLocationList;
   }
+
+  getLocationById(id: number){
+    return this.housingLocationList.find(location=>location.id===id);
+  }
 }

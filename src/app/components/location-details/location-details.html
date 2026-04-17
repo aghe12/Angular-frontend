@@ -1,0 +1,26 @@
+<nav class="details-nav">
+  <button (click)="goPrev()" [disabled]="!hasPrev">← Prev</button>
+  <span>{{ currentIndex + 1 }} / {{ allLocations.length }}</span>
+  <button (click)="goNext()" [disabled]="!hasNext">Next →</button>
+</nav>
+
+<article>
+  <img
+    class="listing-photo"
+    [src]="location?.photo"
+    alt="Exterior photo of {{ location?.name }}"
+    crossorigin
+  />
+  <section class="listing-description">
+    <h2 class="listing-heading">{{ location?.name }}</h2>
+    <p class="listing-location">{{ location?.city }}, {{ location?.state }}</p>
+  </section>
+  <section class="listing-features">
+    <h2 class="section-heading">About this housing location</h2>
+    <ul>
+      <li>Units available: {{ location?.availableUnits }}</li>
+      <li>Does this location have wifi: {{ location?.wifi }}</li>
+      <li>Does this location have laundry: {{ location?.laundry }}</li>
+    </ul>
+  </section>
+</article>

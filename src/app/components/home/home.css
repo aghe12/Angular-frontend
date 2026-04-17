@@ -6,6 +6,7 @@
   margin-top: 50px;
   justify-content: space-around;
 }
+
 input[type='text'] {
   border: solid 1px var(--primary-color);
   padding: 10px;
@@ -14,6 +15,7 @@ input[type='text'] {
   display: inline-block;
   width: 30%;
 }
+
 button {
   padding: 10px;
   border: solid 1px var(--primary-color);
@@ -21,6 +23,73 @@ button {
   color: white;
   border-radius: 8px;
 }
+
+/* Mode bar row */
+.mode-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Mode label text */
+.mode-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  transition: color 0.2s ease;
+}
+
+/* When edit mode is active, highlight the label */
+.mode-label.edit-active {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* Hide the default checkbox */
+.mode-toggle input[type='checkbox'] {
+  display: none;
+}
+
+/* Toggle track (the pill shape) */
+.mode-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.mode-toggle-track {
+  display: flex;
+  align-items: center;
+  width: 44px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 999px;
+  padding: 2px;
+  transition: background-color 0.25s ease;
+  position: relative;
+}
+
+/* Thumb (the circle inside the toggle) */
+.mode-toggle-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.25s ease;
+  position: absolute;
+  left: 2px;
+}
+
+/* When checkbox is checked, move thumb and change track color */
+.mode-toggle input[type='checkbox']:checked + .mode-toggle-track {
+  background-color: #2563eb;
+}
+
+.mode-toggle input[type='checkbox']:checked + .mode-toggle-track .mode-toggle-thumb {
+  transform: translateX(20px);
+}
+
 @media (min-width: 500px) and (max-width: 768px) {
   .results {
     grid-template-columns: repeat(2, 1fr);
@@ -29,6 +98,7 @@ button {
     width: 70%;
   }
 }
+
 @media (max-width: 499px) {
   .results {
     grid-template-columns: 1fr;

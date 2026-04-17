@@ -1,0 +1,79 @@
+/* Nav bar at the top */
+.details-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  background: white;
+}
+
+/* Counter text in the middle */
+.details-nav span {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Both buttons */
+.details-nav button {
+  padding: 8px 16px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+}
+
+/* Disabled button */
+.details-nav button:disabled {
+  color: #ccc;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+
+/* Hover on active buttons */
+.details-nav button:hover:not(:disabled) {
+  background: #f0f0f0;
+}
+
+/* Photo */
+.listing-photo {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-top: 24px;
+}
+
+/* Card content */
+article {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px 40px 24px;
+}
+
+.listing-heading {
+  font-size: 1.5rem;
+  margin-top: 16px;
+}
+
+.listing-location {
+  color: #666;
+}
+
+.section-heading {
+  margin-top: 24px;
+  font-size: 1.1rem;
+}
+
+.listing-features ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 8px;
+}
+
+.listing-features li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}

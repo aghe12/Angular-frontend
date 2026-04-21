@@ -18,12 +18,20 @@ export class HousingLocation {
   // Receives whether this specific card is selected
   isSelected = input<boolean>(false);
 
+  // Emits the id of the location to delete up to Home
+  onDelete = output<number>();
+
   locationService = inject(LocationService);
   baseURL = inject(BASE_URL);
 
   handleClick(event: MouseEvent) {
     console.log(`${this.housingLocation().name} is clicked in ${this.mode()} mode`);
-    // Always emit up to Home — Home decides what to do based on mode
     this.onLocationClick.emit(this.housingLocation());
+  }
+
+  handleDelete(event: MouseEvent) {
+    // Stop the click from bubbling up to the card's handleClick
+    event.stopPropagation();
+    this.onDelete.emit(this.housingLocation().id);
   }
 }

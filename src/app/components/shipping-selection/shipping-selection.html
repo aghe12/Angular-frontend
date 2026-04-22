@@ -1,0 +1,10 @@
+<div class="container">
+  <select>
+    @for (shippingOptions of shippingOptions(); track shippingOptions) {
+      <option>{{ shippingOptions }}</option>
+    }
+  </select>
+  <input type="text" [value]="userSelectedShippingOptions()" (change)="handleUserInput($event)" />
+
+  <button (click)="changeShippingOptions()">Change Shipping Options</button>
+</div>

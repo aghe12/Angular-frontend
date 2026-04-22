@@ -1,4 +1,4 @@
-import { Injectable, InjectionToken } from '@angular/core';
+import { Injectable, InjectionToken, signal } from '@angular/core';
 import { HousingLocationInfo } from '../models/housing-location-info';
 
 export const BASE_URL = new InjectionToken<string>('baseUrl', {
@@ -10,10 +10,7 @@ export const BASE_URL = new InjectionToken<string>('baseUrl', {
   providedIn: 'root',
 })
 export class LocationService {
-  getDeletedLocations() {
-    throw new Error('Method not implemented.');
-  }
-  deleteSelectedLocations(idsToDelete: number[]) {
+  deleteSelectedLocations(ids: number[]) {
     throw new Error('Method not implemented.');
   }
   static numberOfInstances = 0;
@@ -24,7 +21,8 @@ export class LocationService {
   }
 
   private readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common';
-  private readonly housingLocationList: HousingLocationInfo[] = [
+
+  private locations = signal<HousingLocationInfo[]>([
     {
       id: 0,
       name: 'Acme Fresh Start Housing',
@@ -125,12 +123,24 @@ export class LocationService {
       wifi: true,
       laundry: true,
     },
-  ];
-  getAllLocations() {
-    return this.housingLocationList;
+  ]);
+
+  getAllLocations(): HousingLocationInfo[] {
+    return this.locations();
   }
 
-  getLocationById(id: number){
-    return this.housingLocationList.find(location=>location.id===id);
+  getLocationById(id: number): HousingLocationInfo | undefined {
+    return this.locations().find((l) => l.id === id);
   }
+
+  addLocation(location: HousingLocationInfo) {
+    const currentLocations = [...this.locations()];
+    location.id = currentLocations.length;
+    currentLocations.push(location);
+    this.locations.set(currentLocations);
+  }
+
+  //getAllLocation1(): HousingLocationInfo | undefined{
+  //return this.locations().find((l) => l.id === 1);
+  //}
 }

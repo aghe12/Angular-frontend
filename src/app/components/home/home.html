@@ -18,16 +18,22 @@
         Normal Mode
       }
     </span>
+    @if (mode() === 'edit' && selectedVms.length > 0) {
+      <button class="delete-btn" (click)="handleDelete()">
+        Delete Selected ({{ selectedVms.length }})
+      </button>
+    }
   </section>
 </section>
-
+<button (click)="handleAdd()">Add New Location</button>
 <section class="results">
-  @for (housingLocation of locationSevice.getAllLocations(); track housingLocation.id) {
+  @for (housingLocation of locationsToDisplay(); track housingLocation.id) {
     <app-housing-location
       [housingLocation]="housingLocation"
       [mode]="mode()"
       [isSelected]="isSelected(housingLocation.id)"
       (onLocationClick)="handleLocationClick($event)"
+      (onAddLocation)="handleAdd()"
     />
   } @empty {
     <h2>There are no items to display</h2>

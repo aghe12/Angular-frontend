@@ -1,15 +1,17 @@
 import { Component, inject, linkedSignal, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { LocationService } from '../../services/location-service';
 import { HousingLocation } from '../housing-location/housing-location';
-import { Router } from '@angular/router';
+
+// ViewModel type — extends the data model with UI state
+type HousingLocationViewModel = HousingLocationInfo & { selected: boolean };
 
 @Component({
   selector: 'app-home',
   imports: [HousingLocation],
   templateUrl: './home.html',
   styleUrl: './home.css',
-  providers: [LocationService],
 })
 export class Home {
   locationSevice: LocationService = inject(LocationService);
@@ -17,48 +19,91 @@ export class Home {
 
   mode = signal<'normal' | 'edit'>('normal');
 
-  // Set to track which card ids are selected in edit mode
-  selectedIds = new Set<number>();
+  // locationsToDisplay = linkedSignal<HousingLocationViewModel[]>(() => {
+  //   return this.locationSevice.getAllLocations().map((loc) => ({
+  //     ...loc,
+  //     selected: false,
+  //   }));
+  // });
+  // baseUrl: any;
 
-  locationsDisplay=linkedSignal<HousingLocationInfo[]>(() => {
-    const allLocations = this.locationSevice.getAllLocations();
-    if (this.mode() === 'normal') {
-      return allLocations;
-    } 
+  // locationsToDisplay = linkedSignal<HousingLocationInfo[], HousingLocationViewModel[]>({
+  //   source: this.locationSevice.getAllLocations(),
+  //   computation: (newDependencyValueHouseLocationInfoArray, prevValue) => {
+  //     const prevLocationViewModels = prevValue?.value?? [];
+  //     const viewLocationsModels = newDependencyValueHouseLocationInfoArray.map((hl) => {
+  //       const matchedModel = prevLocationViewModels.find(
+  //         (prevLocation) => prevLocation.id === hl.id, //if previously selected items are are we have to retain it
+  //       );
+  //       return { ...hl, selected: matchedModel?.selected };
+  //     });
+  //     return prevLocationViewModels;
+  //   },
+  // });
+
+  locationsToDisplay = linkedSignal<HousingLocationInfo[], HousingLocationViewModel[]>({
+    source: () => this.locationSevice.getAllLocations(),
+    computation: (newLocations, prev) => {
+      const prevModels = prev?.value ?? [];
+      const viewLocationsModels = newLocations.map((hl) => {
+        const matchedModel = prevModels.find((prevLocation) => prevLocation.id === hl.id);
+        return { ...hl, selected: matchedModel?.selected ?? false };
+      });
+      return viewLocationsModels;
+    },
   });
 
   handleCheck(event: Event) {
     const checkbox = event.target as HTMLInputElement;
-    console.log(`Checkbox is now: ${checkbox.checked}`);
-
     this.mode.update((prev) => (prev === 'normal' ? 'edit' : 'normal'));
 
     // Clear all selections when switching back to normal mode
     if (this.mode() === 'normal') {
-      this.selectedIds.clear();
+      this.locationsToDisplay.update((vms) => vms.map((vm) => ({ ...vm, selected: false })));
     }
   }
 
   handleLocationClick(housingLocation: HousingLocationInfo) {
-    console.log(`${housingLocation.name} was clicked`);
-
     if (this.mode() === 'normal') {
-      // Normal mode — navigate to details page
-      // dynamic navigation in angular is done by using the router object, and calling its navigate method,
-      // and passing it an array of path segments e.g. router.navigate(["details", 1])
       this.router.navigate(['details', housingLocation.id]);
     } else {
-      // Edit mode — toggle selection of the clicked card
-      if (this.selectedIds.has(housingLocation.id)) {
-        this.selectedIds.delete(housingLocation.id);
-      } else {
-        this.selectedIds.add(housingLocation.id);
-      }
+      this.locationsToDisplay.update((vms) =>
+        vms.map((vm) => (vm.id === housingLocation.id ? { ...vm, selected: !vm.selected } : vm)),
+      );
     }
   }
 
-  // Helper for the template to check if a card is selected
-  isSelected(id: number): boolean {
-    return this.selectedIds.has(id);
+  isSelected(id: number) {
+    return this.locationsToDisplay().find((vm) => vm.id === id)?.selected ?? false;
+  }
+
+  get selectedVms() {
+    return this.locationsToDisplay().filter((vm) => vm.selected);
+  }
+
+  handleDelete() {
+    if (this.selectedVms.length === 0) return;
+    const ids = this.selectedVms.map((vm) => vm.id);
+    this.locationSevice.deleteSelectedLocations(ids);
+    // rebuild list after deletion
+    this.locationsToDisplay.set(
+      this.locationSevice.getAllLocations().map((loc) => ({ ...loc, selected: false })),
+    );
+  }
+
+  handleAdd() {
+    const newLocation = {
+      id: 0,
+      name: 'New Location',
+      city: 'City',
+      state: 'State',
+      photo:
+        'https://angular.dev/assets/images/tutorials/common/webaliser-_TPTXZd9mOo-unsplash.jpg',
+      availableUnits: 0,
+      wifi: false,
+      laundry: false,
+      selected: false,
+    };
+    this.locationSevice.addLocation(newLocation);
   }
 }

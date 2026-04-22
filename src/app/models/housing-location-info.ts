@@ -8,3 +8,7 @@ export interface HousingLocationInfo {
   wifi: boolean;
   laundry: boolean;
 }
+
+export interface HousingLocationInfoViewModel extends HousingLocationInfo {
+  selected?: boolean;
+}

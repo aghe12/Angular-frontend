@@ -5,11 +5,12 @@ import { LocationService } from '../../services/location-service';
 
 @Component({
   selector: 'app-location-details',
+  standalone: true,
   imports: [],
   templateUrl: './location-details.html',
   styleUrl: './location-details.css',
 })
-export class LinkedSignalDemo {
+export class LocationDetails {
   // we need to be able to read the id of the location from window location
   // for that angular can provide us the activated route, object and from it we can get the dynamic param from the url
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -23,8 +24,8 @@ export class LinkedSignalDemo {
 
   constructor() {
     this.allLocations = this.locationService.getAllLocations();
-    LinkedSignalDemo.count += 1;
-    console.log('count: ', LinkedSignalDemo.count);
+    LocationDetails.count += 1;
+    console.log('count: ', LocationDetails.count);
   }
 
   // computed getters — recalculate automatically whenever currentIndex changes
@@ -69,6 +70,6 @@ export class LinkedSignalDemo {
 
   ngOnDestroy() {
     console.log('location destroyed');
-    LinkedSignalDemo.count -= 1;
+    LocationDetails.count -= 1;
   }
 }

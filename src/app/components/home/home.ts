@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, linkedSignal, signal } from '@angular/core';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { LocationService } from '../../services/location-service';
 import { HousingLocation } from '../housing-location/housing-location';
@@ -19,6 +19,13 @@ export class Home {
 
   // Set to track which card ids are selected in edit mode
   selectedIds = new Set<number>();
+
+  locationsDisplay=linkedSignal<HousingLocationInfo[]>(() => {
+    const allLocations = this.locationSevice.getAllLocations();
+    if (this.mode() === 'normal') {
+      return allLocations;
+    } 
+  });
 
   handleCheck(event: Event) {
     const checkbox = event.target as HTMLInputElement;

@@ -12,7 +12,8 @@ export class LinkedSignalDemo {
   // notificationPreference=signal<boolean>(this.userStatus()==='online');
 
   // Now using linkedSignal instead of computed - writable!
-  notificationsEnabled = linkedSignal(() => this.userStatus() === 'online');
+  //linked list has a live dependency on userStatus, so it will update immediately whenever userStatus changes, and we can also set it directly which will work as expected However it is also possible  override this value as well, and it will not be overridden back to the default value until userStatus changes again. This is because linkedSignal tracks whether it has been manually set, and if so it won't override it until a dependency changes.
+  notificationsEnabled = linkedSignal<boolean>(() => this.userStatus() === 'online');
 
   statusMessage = computed(() => {
     const status = this.userStatus();

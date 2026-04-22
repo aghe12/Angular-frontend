@@ -10,6 +10,12 @@ export const BASE_URL = new InjectionToken<string>('baseUrl', {
   providedIn: 'root',
 })
 export class LocationService {
+  getDeletedLocations() {
+    throw new Error('Method not implemented.');
+  }
+  deleteSelectedLocations(idsToDelete: number[]) {
+    throw new Error('Method not implemented.');
+  }
   static numberOfInstances = 0;
 
   constructor() {

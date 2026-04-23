@@ -11,7 +11,19 @@ export const BASE_URL = new InjectionToken<string>('baseUrl', {
 })
 export class LocationService {
   deleteSelectedLocations(ids: number[]) {
-    throw new Error('Method not implemented.');
+    const currentDeleted = new Set(this.deletedItems());
+    ids.forEach(id => currentDeleted.add(id));
+    this.deletedItems.set(currentDeleted);
+  }
+
+  restoreSelectedLocations(ids: number[]) {
+    const currentDeleted = new Set(this.deletedItems());
+    ids.forEach(id => currentDeleted.delete(id));
+    this.deletedItems.set(currentDeleted);
+  }
+
+  getDeletedItems(): number[] {
+    return Array.from(this.deletedItems());
   }
   static numberOfInstances = 0;
 
@@ -21,6 +33,8 @@ export class LocationService {
   }
 
   private readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common';
+
+  private deletedItems = signal<Set<number>>(new Set());
 
   private locations = signal<HousingLocationInfo[]>([
     {
@@ -126,6 +140,11 @@ export class LocationService {
   ]);
 
   getAllLocations(): HousingLocationInfo[] {
+    const deletedIds = this.deletedItems();
+    return this.locations().filter(location => !deletedIds.has(location.id));
+  }
+
+  getAllLocationsIncludingDeleted(): HousingLocationInfo[] {
     return this.locations();
   }
 

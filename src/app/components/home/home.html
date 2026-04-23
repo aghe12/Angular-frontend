@@ -23,6 +23,11 @@
         Delete Selected ({{ selectedVms.length }})
       </button>
     }
+    @if (mode() === 'edit') {
+      <button class="restore-btn" (click)="handleRestore()">
+        Restore All Deleted
+      </button>
+    }
   </section>
 </section>
 <button (click)="handleAdd()">Add New Location</button>

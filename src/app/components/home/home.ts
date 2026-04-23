@@ -83,9 +83,26 @@ export class Home {
 
   handleDelete() {
     if (this.selectedVms.length === 0) return;
+    
+    const confirmed = confirm(`Are you sure you want to delete ${this.selectedVms.length} item(s)?`);
+    if (!confirmed) return;
+    
     const ids = this.selectedVms.map((vm) => vm.id);
     this.locationSevice.deleteSelectedLocations(ids);
-    // rebuild list after deletion
+    
+    // Clear selections and rebuild list after deletion
+    this.locationsToDisplay.set(
+      this.locationSevice.getAllLocations().map((loc) => ({ ...loc, selected: false })),
+    );
+  }
+
+  handleRestore() {
+    const deletedIds = this.locationSevice.getDeletedItems();
+    if (deletedIds.length === 0) return;
+    
+    this.locationSevice.restoreSelectedLocations(deletedIds);
+    
+    // Rebuild list after restore
     this.locationsToDisplay.set(
       this.locationSevice.getAllLocations().map((loc) => ({ ...loc, selected: false })),
     );

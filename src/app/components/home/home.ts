@@ -1,5 +1,5 @@
 import { Component, inject, linkedSignal, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { LocationService } from '../../services/location-service';
 import { HousingLocation } from '../housing-location/housing-location';
@@ -9,7 +9,7 @@ type HousingLocationViewModel = HousingLocationInfo & { selected: boolean };
 
 @Component({
   selector: 'app-home',
-  imports: [HousingLocation],
+  imports: [HousingLocation, RouterOutlet],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -18,14 +18,6 @@ export class Home {
   router = inject(Router);
 
   mode = signal<'normal' | 'edit'>('normal');
-
-  // locationsToDisplay = linkedSignal<HousingLocationViewModel[]>(() => {
-  //   return this.locationSevice.getAllLocations().map((loc) => ({
-  //     ...loc,
-  //     selected: false,
-  //   }));
-  // });
-  // baseUrl: any;
 
   // locationsToDisplay = linkedSignal<HousingLocationInfo[], HousingLocationViewModel[]>({
   //   source: this.locationSevice.getAllLocations(),
@@ -109,18 +101,19 @@ export class Home {
   }
 
   handleAdd() {
-    const newLocation = {
-      id: 0,
-      name: 'New Location',
-      city: 'City',
-      state: 'State',
-      photo:
-        'https://angular.dev/assets/images/tutorials/common/webaliser-_TPTXZd9mOo-unsplash.jpg',
-      availableUnits: 0,
-      wifi: false,
-      laundry: false,
-      selected: false,
-    };
-    this.locationSevice.addLocation(newLocation);
+    // const newLocation = {
+    //   id: 0,
+    //   name: 'New Location',
+    //   city: 'City',
+    //   state: 'State',
+    //   photo:
+    //     'https://angular.dev/assets/images/tutorials/common/webaliser-_TPTXZd9mOo-unsplash.jpg',
+    //   availableUnits: 0,
+    //   wifi: false,
+    //   laundry: false,
+    //   selected: false,
+    // };
+    // this.locationSevice.addLocation(newLocation);
+    this.router.navigate(['home/edit'])
   }
 }

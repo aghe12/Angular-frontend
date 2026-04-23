@@ -1,8 +1,11 @@
 <section>
+<div class="control-container">
   <form>
     <input type="text" placeholder="Filter by city" />
     <button class="primary" type="button">Search</button>
   </form>
+  <button (click)="handleAdd()">Add New Location</button>
+  </div>
 
   <section class="mode-bar">
     <label class="mode-toggle">
@@ -30,7 +33,7 @@
     }
   </section>
 </section>
-<button (click)="handleAdd()">Add New Location</button>
+
 <section class="results">
   @for (housingLocation of locationsToDisplay(); track housingLocation.id) {
     <app-housing-location
@@ -44,3 +47,4 @@
     <h2>There are no items to display</h2>
   }
 </section>
+<router-outlet></router-outlet>

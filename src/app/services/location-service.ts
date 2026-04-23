@@ -10,6 +10,9 @@ export const BASE_URL = new InjectionToken<string>('baseUrl', {
   providedIn: 'root',
 })
 export class LocationService {
+  getLocationForId(housingLocationId: number): HousingLocationInfo | undefined {
+    throw new Error('Method not implemented.');
+  }
   deleteSelectedLocations(ids: number[]) {
     const currentDeleted = new Set(this.deletedItems());
     ids.forEach(id => currentDeleted.add(id));
@@ -36,7 +39,7 @@ export class LocationService {
 
   private deletedItems = signal<Set<number>>(new Set());
 
-  private locations = signal<HousingLocationInfo[]>([
+  private readonly locations = signal<HousingLocationInfo[]>([
     {
       id: 0,
       name: 'Acme Fresh Start Housing',
@@ -148,10 +151,6 @@ export class LocationService {
     return this.locations();
   }
 
-  getLocationById(id: number): HousingLocationInfo | undefined {
-    return this.locations().find((l) => l.id === id);
-  }
-
   addLocation(location: HousingLocationInfo) {
     const currentLocations = [...this.locations()];
     location.id = currentLocations.length;
@@ -159,7 +158,8 @@ export class LocationService {
     this.locations.set(currentLocations);
   }
 
-  //getAllLocation1(): HousingLocationInfo | undefined{
-  //return this.locations().find((l) => l.id === 1);
-  //}
+  // getLocationById(id: number): HousingLocationInfo | undefined {
+  //   return this.locations().find((l) => l.id === id);
+  // }
+
 }

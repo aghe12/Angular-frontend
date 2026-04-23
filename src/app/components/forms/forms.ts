@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-forms',
@@ -9,46 +9,21 @@ import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angu
 })
 export class Forms {
 
-  formBuilder=inject(FormBuilder);
-name = new FormControl('');
+  formBuilder = inject(FormBuilder); // inject FormBuilder to create form groups easily
 
-  //  profileForm = new FormGroup({
-  //   firstName: new FormControl(''),
-  //   lastName: new FormControl(''),
-  //   address: new FormGroup({
-  //     street: new FormControl(''),
-  //     city: new FormControl(''),
-  //     state: new FormControl(''),
-  //     zip: new FormControl(''),
-
-  // here we are using form builder to crate form group and form controls
-  profileForm = this.formBuilder.group({
-    firstName: ['', [Validators.required, Validators.minLength(5)]],
-    lastName: [''],
-    email: ['', Validators.email],
-    address: this.formBuilder.group({
-      street: [''],
-      city: [''],
-      state: [''],
-      zip: ['']
-    }),
+ 
+  locationForm = this.formBuilder.group({
+    name:           ['', [Validators.required, Validators.minLength(3)]], 
+    city:           ['', Validators.required],                            
+    state:          ['', Validators.required],                           
+    photo:          ['', Validators.required],                            
+    availableUnits: [0,  [Validators.required, Validators.min(0)]],       
+    wifi:           [false],                                              
+    laundry:        [false],                                             
   });
 
-  handleChange() {
-    console.log('name value: ', this.name.value);
-  }
-
-  updateName() {
-    this.name.setValue('Nancy');
-  }
-
   onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.profileForm.value);
-  }
-
-  updateForm(){
-    this.profileForm.patchValue({lastName:"Shetty", address:{street:"kelinja", city:"Bantwal", state:"KA", zip:"574222"}});
-    // this.profileForm.setValue({firstName:""});
+    if (!this.locationForm.valid) return; // stop if any required field is missing
+    console.warn(this.locationForm.value); // log the form value — replace with real logic later
   }
 }

@@ -1,13 +1,19 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { Forms } from '@components/forms/forms';
 
 @Component({
   selector: 'app-location-form',
-  imports: [],
+  imports: [Forms],
   templateUrl: './location-form.html',
   styleUrl: './location-form.css',
 })
 export class LocationForm {
+
+  router =inject(Router);
+
   shouldShowPanel=signal<boolean>(false);
+  
 
   ngOnInit(){
     this.showPanel();
@@ -18,5 +24,9 @@ export class LocationForm {
 
   hidePanel(){
       this.shouldShowPanel.set(false);
+      setTimeout(()=>{
+        this.router.navigate([''])
+      },300)
   }
+
 }

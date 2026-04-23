@@ -1,39 +1,42 @@
-<form>
-<label for="name">Name: </label>
-<input id="name" type="text" [formControl]="name" (change)="handleChange()"/>
-</form>
+<form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
 
-<p>Entered Value: {{ name.value }}</p>
-
-<button (click)="updateName()">Update name</button>
-
-<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-  <label for="first-name">First Name: </label>
-  <input id="first-name" type="text" formControlName="firstName" />
-  @if(!profileForm.controls.firstName.valid){
-    <p class="error">You should enter the name with min 5 letters</p>
+  <label for="name">Name: </label>
+  <input id="name" type="text" formControlName="name" />
+  @if(!locationForm.controls.name.valid){
+    <p class="error">Name is required (min 3 characters)</p>
   }
-  <label for="last-name">Last Name: </label>
-  <input id="last-name" type="text" formControlName="lastName" />
- <label for="email">Email: </label>
- <input id="email" type="email" formControlName="email" />
- <button type="submit" [disabled]="!profileForm.valid">Submit</button>
 
- <div formGroupName="address">
-    <h2>Address</h2>
-    <label for="street">Street: </label>
-    <input id="street" type="text" formControlName="street" />
-    <label for="city">City: </label>
-    <input id="city" type="text" formControlName="city" />
-    <label for="state">State: </label>
-    <input id="state" type="text" formControlName="state" />
-    <br />
-    <label for="zip">Zip: </label>
-    <input id="zip" type="text" formControlName="zip" />
-    <button type="submit" [disabled]="!profileForm.valid">Submit</button>
-  </div>
-  <p>Form Status: {{ profileForm.status }}</p>
+  <label for="city">City: </label>
+  <input id="city" type="text" formControlName="city" />
+  @if(!locationForm.controls.city.valid){
+    <p class="error">City is required</p>
+  }
 
-  <button type="button" (click)="updateForm()">Update Form</button>
+  <label for="state">State: </label>
+  <input id="state" type="text" formControlName="state" />
+  @if(!locationForm.controls.state.valid){
+    <p class="error">State is required</p>
+  }
+
+  <label for="photo">Photo URL: </label>
+  <input id="photo" type="text" formControlName="photo" />
+  @if(!locationForm.controls.photo.valid){
+    <p class="error">Photo URL is required</p>
+  }
+
+  <label for="units">Available Units: </label>
+  <input id="units" type="number" formControlName="availableUnits" />
+
+  <label>
+    <input type="checkbox" formControlName="wifi" /> WiFi Available
+  </label>
+
+  <label>
+    <input type="checkbox" formControlName="laundry" /> Laundry Available
+  </label>
+
+  <button type="submit" [disabled]="!locationForm.valid">Submit</button>
+
+  <p>Form Status: {{ locationForm.status }}</p>
+
 </form>
-

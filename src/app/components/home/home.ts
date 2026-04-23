@@ -1,5 +1,5 @@
 import { Component, inject, linkedSignal, signal } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { HousingLocationInfo } from '../../models/housing-location-info';
 import { LocationService } from '../../services/location-service';
 import { HousingLocation } from '../housing-location/housing-location';
@@ -44,6 +44,7 @@ export class Home {
       return viewLocationsModels;
     },
   });
+ ActivatedRoute = inject(ActivatedRoute);
 
   handleCheck(event: Event) {
     const checkbox = event.target as HTMLInputElement;
@@ -114,6 +115,6 @@ export class Home {
     //   selected: false,
     // };
     // this.locationSevice.addLocation(newLocation);
-    this.router.navigate(['home/edit'])
+    this.router.navigate(['edit'],{relativeTo:this.ActivatedRoute})
   }
 }

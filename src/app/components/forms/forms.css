@@ -5,8 +5,7 @@ form {
   width: 500px;
 }
 
-input[type='text'],
-input[type='number'] {
+input {
   border: 1px solid #605dc8;
   padding: 10px;
   border-radius: 8px;
@@ -17,7 +16,7 @@ button[type='submit'] {
   border: 1px solid #605dc8;
   background: #605dc8;
   color: white;
-  border-radius: 8px;   
+  border-radius: 8px;
 }
 
 button[type='submit']:disabled {

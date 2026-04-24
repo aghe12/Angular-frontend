@@ -14,10 +14,5 @@
     } @else {
       <p class="listing-wifi">No WiFi</p>
     }
-
-    <!-- Delete button — only visible in edit mode -->
-    @if (mode() === 'edit') {
-      <button class="delete-btn" (click)="handleDelete($event)">Delete</button>
-    }
   </section>
 </button>

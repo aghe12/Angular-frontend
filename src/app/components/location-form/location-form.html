@@ -1,18 +1,6 @@
-<!-- <div class="overlay">
-    <div class="panel" [class.show-panel]="shouldShowPanel()">
-        <button class="close-btn" (click)="hidePanel()"> X close</button>
-        <app-forms></app-forms>
-    </div>
-</div> -->
-
-<div class="overlay" (click)="onOverlayClick()">
-  <div 
-    class="panel" 
-    [class.show-panel]="shouldShowPanel()"
-    (click)="$event.stopPropagation()"
-  >
-    <button class="close-btn" (click)="hidePanel()"> X close</button>
-
+<div class="overlay" (click)="onOverlayClick($event)">
+  <div class="panel" [class.show-panel]="shouldShowPanel()">
+    <button class="close-btn" (click)="confirmClosePanel()">X close</button>
     <app-forms #formComp></app-forms>
   </div>
 </div>

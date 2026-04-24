@@ -9,13 +9,13 @@ import { Forms } from '@components/forms/forms';
   styleUrl: './location-form.css',
 })
 export class LocationForm {
-
   router = inject(Router);
 
   shouldShowPanel = signal<boolean>(false);
 
-  // 👇 get child component
-  @ViewChild('formComp') formComponent!: any;
+  // Grab the child Forms component instance so we can read its form state
+  // 'formComp' matches the template variable #formComp on <app-forms>
+  @ViewChild('formComp') formComponent!: Forms;
 
   ngOnInit() {
     this.showPanel();
@@ -25,17 +25,27 @@ export class LocationForm {
     this.shouldShowPanel.set(true);
   }
 
-  hidePanel() {
+  closePanel() {
     this.shouldShowPanel.set(false);
-    setTimeout(() => {
-      this.router.navigate(['']);
-    }, 300);
+    setTimeout(() => this.router.navigate(['']), 300);
   }
 
-  
-  onOverlayClick() {
-    if (!this.formComponent?.form?.dirty) {  //to avoid errors before component loads
-      this.hidePanel();
+  confirmClosePanel() {
+    // If user has typed anything, ask before closing
+    if (this.formComponent?.form?.dirty) {
+      const confirmed = confirm(
+        'You haven’t submitted the form yet, and your changes are unsaved. Are you sure you want to close?',
+      );
+      if (!confirmed) return; // this function will close and panel will remain
+    }
+    this.closePanel();
+  }
+
+  onOverlayClick(event: MouseEvent) {
+    if (event.target === event.currentTarget && !this.formComponent?.form?.dirty) {
+      // this.shouldShowPanel.set(false);
+      // setTimeout(() => this.router.navigate(['']), 300);
+      this.closePanel();
     }
   }
 }

@@ -14,6 +14,7 @@ export class LocationForm {
 
   shouldShowPanel = signal<boolean>(false);
 
+  // 👇 get child component
   @ViewChild('formComp') formComponent!: any;
 
   ngOnInit() {
@@ -33,8 +34,8 @@ export class LocationForm {
 
   
   onOverlayClick() {
-  if (!this.formComponent?.locationForm?.dirty) {
-    this.hidePanel();
+    if (!this.formComponent?.form?.dirty) {  //to avoid errors before component loads
+      this.hidePanel();
+    }
   }
-}
 }

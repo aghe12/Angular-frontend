@@ -1,15 +1,15 @@
-.nav-bar{
-    display: flex;
-    gap: 20px;
-    justify-content: start;
-    align-items: center;
-    padding:10px;
+.nav-bar {
+  display: flex;
+  gap: 20px;
+  justify-content: start;
+  align-items: center;
+  padding: 10px;
 }
-.nav-bar> a{
-    text-decoration: none;
+.nav-bar > a {
+  text-decoration: none;
 }
-.brand-name{
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+.brand-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }

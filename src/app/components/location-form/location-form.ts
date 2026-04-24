@@ -1,4 +1,4 @@
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { Component, HostListener, inject, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Forms } from '@components/forms/forms';
 
@@ -23,10 +23,12 @@ export class LocationForm {
 
   showPanel() {
     this.shouldShowPanel.set(true);
+    document.body.style.overflow = 'hidden'; //disables the background scroll
   }
 
   closePanel() {
     this.shouldShowPanel.set(false);
+    document.body.style.overflow = ''; // restore background scroll
     setTimeout(() => this.router.navigate(['']), 300);
   }
 
@@ -45,6 +47,12 @@ export class LocationForm {
     if (event.target === event.currentTarget && !this.formComponent?.form?.dirty) {
       // this.shouldShowPanel.set(false);
       // setTimeout(() => this.router.navigate(['']), 300);
+      this.closePanel();
+    }
+  }
+  @HostListener('document:keydown.escape')
+  onEscapeKey() {
+    if (!this.formComponent?.form?.dirty) {
       this.closePanel();
     }
   }

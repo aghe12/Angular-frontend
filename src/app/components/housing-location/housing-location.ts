@@ -21,6 +21,9 @@ export class HousingLocation {
   // Emits the id of the location to delete up to Home
   onDelete = output<number>();
 
+  // Emits the full location object up to Home when Edit is clicked
+  onEdit = output<HousingLocationInfo>();
+
   locationService = inject(LocationService);
   baseURL = inject(BASE_URL);
 
@@ -33,5 +36,11 @@ export class HousingLocation {
     // Stop the click from bubbling up to the card's handleClick
     event.stopPropagation();
     this.onDelete.emit(this.housingLocation().id);
+  }
+
+  handleEdit(event: MouseEvent) {
+    // Stop bubbling so card click doesn't fire alongside edit click
+    event.stopPropagation();
+    this.onEdit.emit(this.housingLocation());
   }
 }

@@ -6,6 +6,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   imports: [ReactiveFormsModule],
   templateUrl: './forms.html',
   styleUrl: './forms.css',
+  
 })
 export class Forms {
 
@@ -13,7 +14,7 @@ export class Forms {
 
  
   locationForm = this.formBuilder.group({
-    name:           ['', [Validators.required, Validators.minLength(3)]], 
+    name:           ['', [Validators.required, Validators.minLength(5)]], 
     city:           ['', Validators.required],                            
     state:          ['', Validators.required],                           
     photo:          ['', Validators.required],                            

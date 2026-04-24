@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Forms } from '@components/forms/forms';
 
@@ -10,23 +10,31 @@ import { Forms } from '@components/forms/forms';
 })
 export class LocationForm {
 
-  router =inject(Router);
+  router = inject(Router);
 
-  shouldShowPanel=signal<boolean>(false);
-  
+  shouldShowPanel = signal<boolean>(false);
 
-  ngOnInit(){
+  @ViewChild('formComp') formComponent!: any;
+
+  ngOnInit() {
     this.showPanel();
   }
-  showPanel(){
+
+  showPanel() {
     this.shouldShowPanel.set(true);
   }
 
-  hidePanel(){
-      this.shouldShowPanel.set(false);
-      setTimeout(()=>{
-        this.router.navigate([''])
-      },300)
+  hidePanel() {
+    this.shouldShowPanel.set(false);
+    setTimeout(() => {
+      this.router.navigate(['']);
+    }, 300);
   }
 
+  
+  onOverlayClick() {
+  if (!this.formComponent?.locationForm?.dirty) {
+    this.hidePanel();
+  }
+}
 }

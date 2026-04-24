@@ -1,11 +1,31 @@
-form{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width:200px;
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 500px;
 }
 
-.error{
-    margin:0;
-    color:red;
+input[type='text'],
+input[type='number'] {
+  border: 1px solid #605dc8;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+button[type='submit'] {
+  padding: 10px;
+  border: 1px solid #605dc8;
+  background: #605dc8;
+  color: white;
+  border-radius: 8px;   
+}
+
+button[type='submit']:disabled {
+  opacity: 0.5; /* to show dull */
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0;
+  color: red;
 }

@@ -47,9 +47,11 @@
       [isSelected]="isSelected(housingLocation.id)"
       (onLocationClick)="handleLocationClick($event)"
       (onAddLocation)="handleAdd()"
+       (onEdit)="handleEdit($event)"
     />
   } @empty {
     <h2>There are no items to display</h2>
   }
 </section>
+
 <router-outlet></router-outlet>

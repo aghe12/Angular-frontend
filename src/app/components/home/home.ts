@@ -117,4 +117,8 @@ export class Home {
     // this.locationSevice.addLocation(newLocation);
     this.router.navigate(['edit'],{relativeTo:this.ActivatedRoute})
   }
+  handleEdit(location: HousingLocationInfo) {
+  this.router.navigate(['home', 'edit', location.id]);
+}
+
 }

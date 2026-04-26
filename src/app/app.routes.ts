@@ -18,7 +18,8 @@ export const routes: Routes = [
       path:'edit',
       component:LocationForm,
       title:'Edit Location'
-    }]
+    },
+  { path: 'edit/:id', component: LocationForm, title: 'Edit Location' },]
   },
  
   {

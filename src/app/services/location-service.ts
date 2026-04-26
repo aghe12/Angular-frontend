@@ -158,8 +158,17 @@ export class LocationService {
     this.locations.set(currentLocations);
   }
 
-  // getLocationById(id: number): HousingLocationInfo | undefined {
-  //   return this.locations().find((l) => l.id === id);
-  // }
+  getLocationById(id: number): HousingLocationInfo | undefined {
+    return this.locations().find((l) => l.id === id);
+  }
+
+  updateLocation(location: HousingLocationInfo) {
+    const currentLocations = [...this.locations()];
+    const index = currentLocations.findIndex(l => l.id === location.id);
+    if (index !== -1) {
+      currentLocations[index] = location;
+      this.locations.set(currentLocations);
+    }
+  }
 
 }

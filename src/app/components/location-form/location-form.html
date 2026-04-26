@@ -1,6 +1,8 @@
 <div class="overlay" (click)="onOverlayClick($event)">
-  <div class="panel" [class.show-panel]="shouldShowPanel()">
-    <button class="close-btn" (click)="confirmClosePanel()">X</button>
+  <div class="panel" [class.show-panel]="shouldShowPanel()" [cdkTrapFocus]="shouldShowPanel()">
+    <!-- Close button is first focusable element when panel opens -->
+    <button class="close-btn" #closeBtn (click)="confirmClosePanel()">X</button>
+    <!-- All form elements remain trapped within panel for accessibility -->
     <app-forms #formComp></app-forms>
   </div>
 </div>

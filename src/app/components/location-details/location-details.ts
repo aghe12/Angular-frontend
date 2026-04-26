@@ -51,8 +51,9 @@ export class LocationDetails {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this.housingLocationId = Number(params['id']);
+      this.housingLocationId = Number(params['id']); 
       console.log('updated id:', this.housingLocationId);
+      
       this.currentIndex = this.allLocations.findIndex((l) => l.id === this.housingLocationId);
       this.location = this.allLocations[this.currentIndex];
     });

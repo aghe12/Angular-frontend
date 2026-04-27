@@ -79,8 +79,6 @@ section.listing a::after {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-
-  /* Use your theme colors instead of black */
   background: var(--primary-color);
   border: 1px solid var(--primary-color);
   color: white;

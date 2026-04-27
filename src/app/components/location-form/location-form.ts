@@ -1,7 +1,7 @@
-import { Component, ElementRef, HostListener, inject, OnInit, AfterViewInit, signal, ViewChild } from '@angular/core';
+import { CdkTrapFocus } from '@angular/cdk/a11y';
+import { Component, ElementRef, HostListener, inject, signal, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Forms } from '@components/forms/forms';
-import { CdkTrapFocus } from '@angular/cdk/a11y';
 
 
 @Component({
@@ -9,8 +9,9 @@ import { CdkTrapFocus } from '@angular/cdk/a11y';
   imports: [Forms, CdkTrapFocus],
   templateUrl: './location-form.html',
   styleUrl: './location-form.css',
+  // host:{`(document:keydown.escape)`:`handleEscape()`},
 })
-export class LocationForm implements OnInit, AfterViewInit {
+export class LocationForm   {
   router = inject(Router);
   shouldShowPanel = signal<boolean>(false);
 
@@ -19,9 +20,6 @@ export class LocationForm implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.showPanel();
-    // Tab trapping is handled by cdkTrapFocus directive in template
-    // This ensures accessibility by keeping focus within the panel
-    // Focus will be set to close button after panel is shown
   }
 
   ngAfterViewInit() {
@@ -29,7 +27,7 @@ export class LocationForm implements OnInit, AfterViewInit {
     if (this.closeBtn && this.shouldShowPanel()) {
       setTimeout(() => {
         this.closeBtn.nativeElement.focus();
-      }, 100); // Small delay to ensure panel is visible
+      }, 100); 
     }
   }
 
@@ -57,8 +55,6 @@ export class LocationForm implements OnInit, AfterViewInit {
 
   onOverlayClick(event: MouseEvent) {
     if (event.target === event.currentTarget && !this.formComponent?.form?.dirty) {
-      // this.shouldShowPanel.set(false);
-      // setTimeout(() => this.router.navigate(['']), 300);
       this.closePanel();
     }
   }

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router'; // to read :id from URL
 import { LocationService } from '../../services/location-service';
@@ -9,10 +9,12 @@ import { LocationService } from '../../services/location-service';
   templateUrl: './forms.html',
   styleUrl: './forms.css',
 })
+
 export class Forms implements OnInit {
   formBuilder = inject(FormBuilder);
   locationService = inject(LocationService);
   route = inject(ActivatedRoute);  // reads the current URL params
+  onSaved = output<void>();  //submit implementation
 
   locationForm = this.formBuilder.group({
     name: ['', [Validators.required, Validators.minLength(5)]],
@@ -23,6 +25,7 @@ export class Forms implements OnInit {
     wifi: [false],
     laundry: [false],
   });
+
 
   get form() {
     return this.locationForm;
@@ -71,6 +74,6 @@ export class Forms implements OnInit {
       });
     }
 
-    this.locationForm.markAsPristine();
+    this.onSaved.emit(); //also for submit
   }
 }

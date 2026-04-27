@@ -1,43 +1,54 @@
-<section>
+<section class="page-header">
 
-  <form>
+  <form class="search-bar">
     <input type="text" placeholder="Filter by city" />
-    <button class="primary" type="button">Search</button>
+    <button class="btn btn-primary" type="button">
+      <i class="fa fa-search"></i> Search
+    </button>
   </form>
-  <div class="control-container">
 
-  <section class="mode-bar">
-    <label class="mode-toggle">
-      <input type="checkbox" (change)="handleCheck($event)" />
-      <span class="mode-toggle-track">
-        <span class="mode-toggle-thumb"></span>
-      </span>
-    </label>
-    <span class="mode-label" [class.edit-active]="mode() === 'edit'">
+  <div class="toolbar">
+
+    <!-- LEFT: toggle with labels on both sides -->
+    <div class="mode-bar">
+      <span class="mode-label" [class.active]="mode() === 'normal'">Normal</span>
+
+      <label class="mode-toggle">
+        <input
+          type="checkbox"
+          [checked]="mode() === 'edit'"
+          (change)="handleCheck($event)"
+        />
+        <span class="mode-toggle-track">
+          <span class="mode-toggle-thumb"></span>
+        </span>
+      </label>
+
+      <span class="mode-label" [class.active]="mode() === 'edit'">Edit</span>
+
+    </div>
+
+    <!-- RIGHT: action buttons shown only in edit mode -->
+    <div class="action-buttons">
       @if (mode() === 'edit') {
-        Edit Mode Active
-      } @else {
-        Normal Mode
+        <button class="btn btn-ghost" (click)="handleRestore()">
+          <i class="fa fa-rotate-left"></i> Restore
+        </button>
+
+        @if (selectedVms.length > 0) {
+          <button class="btn btn-danger" (click)="handleDelete()">
+            <i class="fa fa-trash"></i> Delete ({{ selectedVms.length }})
+          </button>
+        }
+
+        <button class="btn btn-primary" (click)="handleAdd()">
+          <i class="fa fa-plus"></i> Add Location
+        </button>
       }
-    </span>
-    @if (mode() === 'edit' && selectedVms.length > 0) {
-      <button class="delete-btn" (click)="handleDelete()">
-        Delete Selected ({{ selectedVms.length }})
-      </button>
-    }
-    @if (mode() === 'edit') {
-      <button class="restore-btn" (click)="handleRestore()">
-        Restore All Deleted
-      </button>
-    }
-  </section>
-  @if(mode()=='edit'){
-        <button (click)="handleAdd()">Add New Location</button>
+    </div>
 
-  }
-</div>
+  </div>
 </section>
-
 
 <section class="results">
   @for (housingLocation of locationsToDisplay(); track housingLocation.id) {
@@ -47,10 +58,14 @@
       [isSelected]="isSelected(housingLocation.id)"
       (onLocationClick)="handleLocationClick($event)"
       (onAddLocation)="handleAdd()"
-       (onEdit)="handleEdit($event)"
+      (onEdit)="handleEdit($event)"
     />
   } @empty {
-    <h2>There are no items to display</h2>
+    <div class="empty-state">
+      <i class="fa fa-building"></i>
+      <h2>No locations found</h2>
+      <p>Try a different search or add a new location.</p>
+    </div>
   }
 </section>
 

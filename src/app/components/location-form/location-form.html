@@ -1,6 +1,6 @@
 <div class="overlay" (click)="onOverlayClick($event)">
   <div class="panel" [class.show-panel]="shouldShowPanel()" [cdkTrapFocus]="shouldShowPanel()">
     <button name='close' class="close-btn" #closeBtn (click)="confirmClosePanel()">X</button>
-    <app-forms #formComp></app-forms>
+    <app-forms #formComp (onSaved)="closePanel()"></app-forms> <!--(onSaved) for submit-->
   </div>
 </div>

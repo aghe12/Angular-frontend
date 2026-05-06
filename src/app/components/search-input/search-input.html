@@ -1,0 +1,14 @@
+<div class="search-container">
+  <input 
+    type="text" 
+    [value]="searchTerm()"
+    (input)="onSearchChange($event)"
+    placeholder="Search by name or city..."
+    class="search-input"
+  />
+  @if (searchTerm().length > 0 && searchTerm().length < 3) {
+    <div class="search-hint">
+      Enter at least 3 characters to search
+    </div>
+  }
+</div>

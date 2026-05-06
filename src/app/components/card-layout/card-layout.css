@@ -1,0 +1,9 @@
+.card-layout {
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  padding: 16px;
+  background: #fff;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+}

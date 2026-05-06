@@ -10,9 +10,6 @@ export const BASE_URL = new InjectionToken<string>('baseUrl', {
   providedIn: 'root',
 })
 export class LocationService {
-  getLocationForId(housingLocationId: number): HousingLocationInfo | undefined {
-    throw new Error('Method not implemented.');
-  }
   deleteSelectedLocations(ids: number[]) {
     const currentDeleted = new Set(this.deletedItems());
     ids.forEach(id => currentDeleted.add(id));
@@ -28,6 +25,7 @@ export class LocationService {
   getDeletedItems(): number[] {
     return Array.from(this.deletedItems());
   }
+
   static numberOfInstances = 0;
 
   constructor() {
@@ -36,7 +34,6 @@ export class LocationService {
   }
 
   private readonly baseUrl = 'https://angular.dev/assets/images/tutorials/common';
-
   private deletedItems = signal<Set<number>>(new Set());
 
   private readonly locations = signal<HousingLocationInfo[]>([
@@ -171,4 +168,33 @@ export class LocationService {
     }
   }
 
+  // ─── SEARCH: expose locations as a public readonly signal ──────────────────
+  // home.ts needs to observe this signal via toObservable() inside combineLatest
+  // so that whenever a location is added/deleted/updated, the search re-runs
+  // automatically without any manual refresh.
+  // Takes: nothing  |  Gives: readonly Signal<HousingLocationInfo[]>
+  get locationsSignal() {
+    return this.locations.asReadonly();
+  }
+
+  // ─── SEARCH: filter locations by name or city ──────────────────────────────
+  // Takes: term (string) — the search query typed by the user
+  // Gives: HousingLocationInfo[] — locations whose name OR city contains the term
+  // If term is empty or blank → returns all non-deleted locations (shows everything)
+  // Comparison is case-insensitive (both sides lowercased before matching)
+  searchLocationsByTerm(term: string): HousingLocationInfo[] {
+    const deletedIds = this.deletedItems();
+    const all = this.locations().filter(loc => !deletedIds.has(loc.id));
+
+    // Empty search → return all locations, no filtering needed
+    if (!term.trim()) return all;
+
+    const lower = term.toLowerCase();
+
+    // Keep only locations where name or city contains the search term
+    return all.filter(loc =>
+      loc.name.toLowerCase().includes(lower) ||
+      loc.city.toLowerCase().includes(lower)
+    );
+  }
 }

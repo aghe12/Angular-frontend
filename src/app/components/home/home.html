@@ -1,18 +1,20 @@
 <section class="page-header">
 
-  <form class="search-bar">
-    <input type="text" placeholder="Filter by city" />
-    <button class="btn btn-primary" type="button">
+  <form class="search-bar" (submit)="handleFormSubmit($event)">
+    <input 
+      type="text" 
+      [formControl]="searchControl"
+      placeholder="Filter by City/Name" 
+    />
+    <button class="btn btn-primary" type="button" (click)="handleSearch()">
       <i class="fa fa-search"></i> Search
     </button>
+    
   </form>
 
   <div class="toolbar">
-
-    <!-- LEFT: toggle with labels on both sides -->
     <div class="mode-bar">
       <span class="mode-label" [class.active]="mode() === 'normal'">Normal</span>
-
       <label class="mode-toggle">
         <input
           type="checkbox"
@@ -23,35 +25,30 @@
           <span class="mode-toggle-thumb"></span>
         </span>
       </label>
-
       <span class="mode-label" [class.active]="mode() === 'edit'">Edit</span>
-
     </div>
 
-    <!-- RIGHT: action buttons shown only in edit mode -->
     <div class="action-buttons">
       @if (mode() === 'edit') {
         <button class="btn btn-ghost" (click)="handleRestore()">
           <i class="fa fa-rotate-left"></i> Restore
         </button>
-
         @if (selectedVms.length > 0) {
           <button class="btn btn-danger" (click)="handleDelete()">
             <i class="fa fa-trash"></i> Delete ({{ selectedVms.length }})
           </button>
         }
-
         <button class="btn btn-primary" (click)="handleAdd()">
           <i class="fa fa-plus"></i> Add Location
         </button>
       }
     </div>
-
   </div>
 </section>
 
 <section class="results">
   @for (housingLocation of locationsToDisplay(); track housingLocation.id) {
+    <app-card-layout>
     <app-housing-location
       [housingLocation]="housingLocation"
       [mode]="mode()"
@@ -60,6 +57,7 @@
       (onAddLocation)="handleAdd()"
       (onEdit)="handleEdit($event)"
     />
+    </app-card-layout>
   } @empty {
     <div class="empty-state">
       <i class="fa fa-building"></i>
